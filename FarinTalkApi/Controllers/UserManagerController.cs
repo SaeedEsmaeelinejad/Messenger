@@ -15,9 +15,11 @@ using FarinTalkApi.Models;
 namespace FarinTalkApi.Controllers
 {
     [EnableCors("*","*","*")]
+    [Route("userManager")]
     public class UserManagerController : ApiControllerWithHub<ServerHub>
     {
         [HttpPost]
+        [Route("createUser")]
         public IHttpActionResult CreateUser([FromBody] InputParam input)
         {
             var response = new FarinResponseMessage() {IsSuccess = true, StatusCode = (int) HttpStatusCode.OK};
@@ -50,6 +52,7 @@ namespace FarinTalkApi.Controllers
         }
 
         [HttpPost]
+        [Route("turnUserOnline")]
         public IHttpActionResult TurnUserOnline([FromBody] InputParam input)
         {
             
@@ -67,12 +70,6 @@ namespace FarinTalkApi.Controllers
                 var userIndex=DbContext.Users.IndexOf(user);
                 DbContext.Users[userIndex].IsOnline = true;
                 DbContext.Users[userIndex].LastStatus = DateTime.Now;
-                //if (user != null)
-                //{
-                //    DbContext.Users.Remove(user);
-                //    user.IsOnline = true;
-                //    DbContext.Users.Add(user);
-                //}
             }
             catch (Exception e)
             {
@@ -85,6 +82,7 @@ namespace FarinTalkApi.Controllers
         }
 
         [HttpGet]
+        [Route("isUserOnLine")]
         public IHttpActionResult IsUserOnLine([FromUri] string userName)
         {
             var response=new FarinResponseMessage(){IsSuccess = true,StatusCode = (int)HttpStatusCode.OK};
